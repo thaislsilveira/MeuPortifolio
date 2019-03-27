@@ -21,6 +21,7 @@ import java.util.List;
 public class MateriaDAO implements GenericDAO {
 
     private Connection conexao;
+    private ResultSet rs;
 
     public MateriaDAO() throws Exception {
         try {
@@ -268,4 +269,49 @@ public class MateriaDAO implements GenericDAO {
             }
         }
     }
+
+    public List<Object> listarMateriaTexto(String busca) {
+
+        String texto = busca;
+        List<Object> resultado = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Materia oMateria = null;
+        String sql = "select m.*, p.*, s.* from materia m inner join professor p on m.idProfessor = p.idProfessor"
+                + " inner join semestre s on m.idSemestre = s.idSemestre where LOWER(nomeMateria) LIKE (LOWER(?))"
+                + "OR  LOWER(nomeProfessor) LIKE (LOWER(?)) ";
+
+        try {
+            stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, "%" + texto.toLowerCase() + "%");
+            stmt.setString(2, "%" + texto.toLowerCase() + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                oMateria = new Materia();
+                oMateria.setIdMateria(rs.getInt("idMateria"));
+                oMateria.setNomeMateria(rs.getString("nomeMateria"));
+
+                oMateria.getProfessor().setIdProfessor(rs.getInt("idProfessor"));
+                oMateria.getProfessor().setNomeProfessor(rs.getString("nomeProfessor"));
+
+                oMateria.getSemestre().setIdSemestre(rs.getInt("idSemestre"));
+                oMateria.getSemestre().setNomeSemestre(rs.getString("nomeSemestre"));
+
+                resultado.add(oMateria);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Problemas ao buscar matéria!"
+                    + "Erro: " + ex.getMessage());
+            return null;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conexao, stmt, rs);
+            } catch (Exception ex) {
+                System.out.println("Problemas ao fechar os parâmetros de conexão! Erro: "
+                        + ex.getMessage());
+            }
+        }
+        return resultado;
+    }    
 }

@@ -193,7 +193,7 @@ public class TrabalhoDAO implements GenericDAO {
         }
         return resultado;
     }
-    
+
     public List<Object> ListarPelaMateria(int numero) {
         int idMateria = numero;
         List<Object> resultado = new ArrayList<>();
@@ -230,8 +230,8 @@ public class TrabalhoDAO implements GenericDAO {
         }
         return resultado;
     }
-    
-     public Integer countTrabalho() {
+
+    public Integer countTrabalho() {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Integer qtd = null;
@@ -257,5 +257,48 @@ public class TrabalhoDAO implements GenericDAO {
                         + ex.getMessage());
             }
         }
+    }
+
+    public List<Object> listarTrabalhoTexto(String busca) {
+
+        String texto = busca;
+        List<Object> resultado = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Trabalho oTrabalho = null;
+        String sql = "select t.*, m.*, s.* from trabalho t inner join materia m on t.idMateria = m.idMateria inner join semestre s on m.idSemestre = s.idSemestre where LOWER(nomeTrabalho) LIKE (LOWER(?))"
+                + "OR LOWER(descricao) LIKE (LOWER(?));";
+
+        try {
+            stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, "%" + texto.toLowerCase() + "%");
+            stmt.setString(2, "%" + texto.toLowerCase() + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                oTrabalho = new Trabalho();
+                oTrabalho.setIdTrabalho(rs.getInt("idTrabalho"));
+                oTrabalho.setNomeTrabalho(rs.getString("nomeTrabalho"));
+                oTrabalho.setDescricao(rs.getString("descricao"));
+                oTrabalho.setImagem(rs.getString("imagem"));
+                oTrabalho.getMateria().setIdMateria(rs.getInt("idMateria"));
+                oTrabalho.getMateria().setNomeMateria(rs.getString("nomeMateria"));
+                oTrabalho.getMateria().getSemestre().setNomeSemestre(rs.getString("nomeSemestre"));
+                oTrabalho.getMateria().getSemestre().setIdSemestre(rs.getInt("idSemestre"));
+                resultado.add(oTrabalho);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Problemas ao buscar Trabalho!"
+                    + "Erro: " + ex.getMessage());
+            return null;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conexao, stmt, rs);
+            } catch (Exception ex) {
+                System.out.println("Problemas ao fechar os parâmetros de conexão! Erro: "
+                        + ex.getMessage());
+            }
+        }
+        return resultado;
     }
 }

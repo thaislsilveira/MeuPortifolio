@@ -3,13 +3,25 @@
 <!DOCTYPE html>
 <html lang="pt">
     <head>
-        <title>thais silveira</title>
-        <meta charset="UTF-8">
-        <meta name="description" content="Thais Laine Neves da Silveira">
-        <meta name="keywords" content="personal, portfolio">
+        <title>Thaís Silveira - Portfolio</title>
+        <meta name="description" content="Este é um site de blog pessoal de Thaís Silveira, contando um pouco sobre mim, área de atuação, cursos e currículo.">
+        <meta name="keywords" content="thaís, silveira, portfolio, cursos, currículo, atuação, sobre">
+        <meta name="robots" content="index, follow">
+        <meta name="revisit-after" content="1 month">
+        <meta name="language" content="Portuguese">
+        <meta name="generator" content="N/A">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- Facebook og meta tags-->
+        <meta property="og:image" content="www.thaissilveira.com.br/images/logo/logo-bg.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1000">
+        <meta property="og:image:height" content="1000">
+        <!-- Conteúdo para qualquer idade -->
+        <META NAME="RATING" CONTENT="general" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Stylesheets -->
+        <link rel="stylesheet" href="css/barra_busca.css"/>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="cubeportfolio/css/cubeportfolio.min.css"/>
         <link rel="stylesheet" href="css/owl.theme.css"/> 
@@ -38,12 +50,27 @@
 
         <!-- HEADER -->
         <header>
-            <a href="index.jsp"><img src="images/logo/logo-transparente.png" style="width: 200px;" alt="logotipo"></a>
+            <div class="esquerda">
+           <a href="index.jsp"><img src="images/logo/logo-transparente.png" style="width: 200px;" alt="logotipo"></a>        
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                    <li class="breadcrumb-item"><a href="semestres.jsp">Semestre</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">${semestre.nomeSemestre}</li>
+                </ol>
+            </div>
             <div class="nav-icon">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </div>     
+            <div class="nav-icon-busca">
+                <div id="container-busca">
+                    <form action="Search" method="get">
+                        <input id="busca" name="busca" type="text" placeholder="Buscar...">
+                        <div id="container-search"></div>
+                    </form>
+                </div>
+            </div>  
         </header>
         <!-- FULL MENU -->
         <div class="full-menu">
@@ -116,7 +143,7 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-12 copyright">
                         <img src="images/logo.png" alt="">
-                       <p>© 2018 <span style="color: #FF5C66"> Thais Silveira </span> </p>
+                        <p>© 2018 <span style="color: #FF5C66"> Thais Silveira </span> </p>
                     </div>
                     <div class="col-md-4 d-sm-none d-md-block">
                         <div class="social">

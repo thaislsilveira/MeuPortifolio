@@ -432,6 +432,11 @@ header{
     transform: translateY(-40px);
 }
 
+.cbp-item h3.no-animate:hover {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+}
+
 .cbp-item figure {
     margin:0;
     position: relative;
@@ -900,6 +905,12 @@ header.white .nav-icon span {
 
 
 /* Full Menu Animate */
+
+.full-open .nav-icon-busca {
+    opacity: 1;
+    display: block;
+    pointer-events: auto;
+}
 
 .full-open .full-menu{
     transform: translateX(0);
@@ -2221,4 +2232,8 @@ nav.sidebar{
     color: #fff;
     border: none;
     background-color: #333940;
+}
+
+.breadcrumb {
+    font-size: 18px;
 }
